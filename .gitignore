@@ -5,3 +5,4 @@
 pyproject.toml
 /deepgaze_pytorch.egg-info
 /predictions
+/reqlib-metadata

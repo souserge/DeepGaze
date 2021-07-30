@@ -1,6 +1,8 @@
 # DeepGaze CPU
 
-The project uses `pipenv` for managing Python virtual environment. You can install and run the CMD script using the following:
+The project uses `pipenv` for managing Python virtual environment. The project uses Python 3.9, which you can install alongside your system Python binaries using the `pyenv` tool. Alternatively, you can change the Python version in `Pipfile`.
+
+To install and run the CMD script:
 1. `pip install --user pipenv`
 2. `pipenv install`
 3. `pipenv run python main.py --help`

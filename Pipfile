@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+deepgaze-pytorch = {editable = true, path = "."}
+numpy = "*"
+scipy = "*"
+torch = "*"
+pillow = "*"
+torchvision = "*"
+opencv-contrib-python = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
