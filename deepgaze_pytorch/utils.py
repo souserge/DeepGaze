@@ -32,6 +32,3 @@ def preprocess_input(image, centerbias_template=np.zeros((1024, 1024))):
     centerbias_tensor = torch.tensor([centerbias])
 
     return image_tensor, centerbias_tensor
-
-
-def get_saliency_map()
