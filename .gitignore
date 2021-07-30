@@ -1,2 +1,6 @@
 *.pyc
 /.vscode
+
+# package post-build files
+pyproject.toml
+/deepgaze_pytorch.egg-info
