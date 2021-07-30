@@ -136,13 +136,13 @@ class DeepGazeIIE(MixtureModel):
     :note
     See Linardos, A., Kümmerer, M., Press, O., & Bethge, M. (2021). Calibrated prediction in and out-of-domain for state-of-the-art saliency modeling. ArXiv:2105.12441 [Cs], http://arxiv.org/abs/2105.12441
     """
-    def __init__(self, pretrained=True):
+    def __init__(self, pretrained=True, device=torch.device('cpu')):
         # we average over 3 instances per backbone, each instance has 10 crossvalidation folds
         backbone_models = [build_deepgaze_mixture(backbone_config, components=3 * 10) for backbone_config in BACKBONES]
         super().__init__(backbone_models)
 
         if pretrained:
-            self.load_state_dict(model_zoo.load_url('https://github.com/matthias-k/DeepGaze/releases/download/v1.0.0/deepgaze2e.pth'))
+            self.load_state_dict(model_zoo.load_url('https://github.com/matthias-k/DeepGaze/releases/download/v1.0.0/deepgaze2e.pth', map_location=device))
 
 
 def import_class(name):

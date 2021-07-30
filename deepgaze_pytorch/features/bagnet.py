@@ -132,7 +132,7 @@ class BagNet(nn.Module):
 
         return x
 
-def bagnet33(pretrained=False, strides=[2, 2, 2, 1], **kwargs):
+def bagnet33(pretrained=False, strides=[2, 2, 2, 1], device=torch.device('cpu'), **kwargs):
     """Constructs a Bagnet-33 model.
 
     Args:
@@ -140,10 +140,10 @@ def bagnet33(pretrained=False, strides=[2, 2, 2, 1], **kwargs):
     """
     model = BagNet(Bottleneck, [3, 4, 6, 3], strides=strides, kernel3=[1,1,1,1], **kwargs)
     if pretrained:
-        model.load_state_dict(model_zoo.load_url(model_urls['bagnet33']))
+        model.load_state_dict(model_zoo.load_url(model_urls['bagnet33'], map_location=device))
     return model
 
-def bagnet17(pretrained=False, strides=[2, 2, 2, 1], **kwargs):
+def bagnet17(pretrained=False, strides=[2, 2, 2, 1], device=torch.device('cpu'), **kwargs):
     """Constructs a Bagnet-17 model.
 
     Args:
@@ -151,10 +151,10 @@ def bagnet17(pretrained=False, strides=[2, 2, 2, 1], **kwargs):
     """
     model = BagNet(Bottleneck, [3, 4, 6, 3], strides=strides, kernel3=[1,1,1,0], **kwargs)
     if pretrained:
-        model.load_state_dict(model_zoo.load_url(model_urls['bagnet17']))
+        model.load_state_dict(model_zoo.load_url(model_urls['bagnet17'], map_location=device))
     return model
 
-def bagnet9(pretrained=False, strides=[2, 2, 2, 1], **kwargs):
+def bagnet9(pretrained=False, strides=[2, 2, 2, 1], device=torch.device('cpu'), **kwargs):
     """Constructs a Bagnet-9 model.
 
     Args:
@@ -162,7 +162,7 @@ def bagnet9(pretrained=False, strides=[2, 2, 2, 1], **kwargs):
     """
     model = BagNet(Bottleneck, [3, 4, 6, 3], strides=strides, kernel3=[1,1,0,0], **kwargs)
     if pretrained:
-        model.load_state_dict(model_zoo.load_url(model_urls['bagnet9']))
+        model.load_state_dict(model_zoo.load_url(model_urls['bagnet9'], map_location=device))
     return model
 
 # --- DeepGaze Adaptation ----
@@ -183,17 +183,17 @@ class Normalizer(nn.Module):
 
 
 class RGBBagNet17(nn.Sequential):
-    def __init__(self):
+    def __init__(self, device=torch.device('cpu')):
         super(RGBBagNet17, self).__init__()
-        self.bagnet = bagnet17(pretrained=True, avg_pool=False)
+        self.bagnet = bagnet17(pretrained=True, device=device, avg_pool=False)
         self.normalizer = Normalizer()
         super(RGBBagNet17, self).__init__(self.normalizer, self.bagnet)
 
 
 class RGBBagNet33(nn.Sequential):
-    def __init__(self):
+    def __init__(self, device=torch.device('cpu')):
         super(RGBBagNet33, self).__init__()
-        self.bagnet = bagnet33(pretrained=True, avg_pool=False)
+        self.bagnet = bagnet33(pretrained=True, device=device, avg_pool=False)
         self.normalizer = Normalizer()
         super(RGBBagNet33, self).__init__(self.normalizer, self.bagnet)
 

@@ -37,11 +37,11 @@ class RGBResNet50(nn.Sequential):
 
 
 class RGBResNet50_alt(nn.Sequential):
-    def __init__(self):
+    def __init__(self, device=torch.device('cpu')):
         super(RGBResNet50, self).__init__()
         self.resnet = torchvision.models.resnet50(pretrained=True)
         self.normalizer = Normalizer()
-        state_dict = torch.load("Resnet-AlternativePreTrain.pth")
+        state_dict = torch.load("Resnet-AlternativePreTrain.pth", map_location=device)
         model.load_state_dict(state_dict)
         super(RGBResNet50, self).__init__(self.normalizer, self.resnet)
 

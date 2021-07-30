@@ -11,7 +11,7 @@ import torchvision.models
 from torch.utils import model_zoo
 
 
-def load_model(model_name):
+def load_model(model_name, device=torch.device('cpu')):
 
     model_urls = {
             'resnet50_trained_on_SIN': 'https://bitbucket.org/robert_geirhos/texture-vs-shape-pretrained-models/raw/6f41d2e86fc60566f78de64ecff35cc61eb6436f/resnet50_train_60_epochs-c8e5653e.pth.tar',
@@ -27,7 +27,7 @@ def load_model(model_name):
         #model = torch.nn.DataParallel(model)  # .cuda()
         # fake DataParallel structrue
         model = torch.nn.Sequential(OrderedDict([('module', model)]))
-        checkpoint = model_zoo.load_url(model_urls[model_name])
+        checkpoint = model_zoo.load_url(model_urls[model_name], map_location=device)
     elif "vgg16" in model_name:
         #print("Using the VGG-16 architecture.")
 
@@ -39,7 +39,7 @@ def load_model(model_name):
         model = torchvision.models.vgg16(pretrained=False)
         model.features = torch.nn.DataParallel(model.features)
         model.cuda()
-        checkpoint = torch.load(filepath)
+        checkpoint = torch.load(filepath, map_location=device)
 
 
     elif "alexnet" in model_name:
@@ -47,7 +47,7 @@ def load_model(model_name):
         model = torchvision.models.alexnet(pretrained=False)
         model.features = torch.nn.DataParallel(model.features)
         model.cuda()
-        checkpoint = model_zoo.load_url(model_urls[model_name])
+        checkpoint = model_zoo.load_url(model_urls[model_name], map_location=device)
     else:
         raise ValueError("unknown model architecture.")
 
@@ -71,26 +71,26 @@ class Normalizer(nn.Module):
 
       
 class RGBShapeNetA(nn.Sequential):
-    def __init__(self):
+    def __init__(self, device=torch.device('cpu')):
         super(RGBShapeNetA, self).__init__()
-        self.shapenet = load_model("resnet50_trained_on_SIN")
+        self.shapenet = load_model("resnet50_trained_on_SIN", device=device)
         self.normalizer = Normalizer()
         super(RGBShapeNetA, self).__init__(self.normalizer, self.shapenet)
 
 
         
 class RGBShapeNetB(nn.Sequential):
-    def __init__(self):
+    def __init__(self, device=torch.device('cpu')):
         super(RGBShapeNetB, self).__init__()
-        self.shapenet = load_model("resnet50_trained_on_SIN_and_IN")
+        self.shapenet = load_model("resnet50_trained_on_SIN_and_IN", device=device)
         self.normalizer = Normalizer()
         super(RGBShapeNetB, self).__init__(self.normalizer, self.shapenet)
 
 
 class RGBShapeNetC(nn.Sequential):
-    def __init__(self):
+    def __init__(self, device=torch.device('cpu')):
         super(RGBShapeNetC, self).__init__()
-        self.shapenet = load_model("resnet50_trained_on_SIN_and_IN_then_finetuned_on_IN")
+        self.shapenet = load_model("resnet50_trained_on_SIN_and_IN_then_finetuned_on_IN", device=device)
         self.normalizer = Normalizer()
         super(RGBShapeNetC, self).__init__(self.normalizer, self.shapenet)
 

@@ -22,7 +22,7 @@ class DeepGazeI(TorchDeepGazeII):
     Reference:
     Kümmerer, M., Theis, L., & Bethge, M. (2015). Deep Gaze I: Boosting Saliency Prediction with Feature Maps Trained on ImageNet. ICLR Workshop Track. http://arxiv.org/abs/1411.1045
     """
-    def __init__(self, pretrained=True):
+    def __init__(self, pretrained=True, device=torch.device('cpu')):
         features = RGBalexnet()
         feature_extractor = FeatureExtractor(features, ['1.features.10'])
 
@@ -39,4 +39,4 @@ class DeepGazeI(TorchDeepGazeII):
         )
 
         if pretrained:
-            self.load_state_dict(model_zoo.load_url('https://github.com/matthias-k/DeepGaze/releases/download/v1.01/deepgaze1.pth', map_location=torch.device('cpu')))
+            self.load_state_dict(model_zoo.load_url('https://github.com/matthias-k/DeepGaze/releases/download/v1.01/deepgaze1.pth', map_location=device))

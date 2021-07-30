@@ -23,18 +23,18 @@ class Normalizer(nn.Module):
 
 
 class RGBEfficientNetB5(nn.Sequential):
-    def __init__(self):
+    def __init__(self, device=torch.device('cpu')):
         super(RGBEfficientNetB5, self).__init__()
-        self.efficientnet = EfficientNet.from_pretrained('efficientnet-b5') 
+        self.efficientnet = EfficientNet.from_pretrained('efficientnet-b5', device=device) 
         self.normalizer = Normalizer()
         super(RGBEfficientNetB5, self).__init__(self.normalizer, self.efficientnet)
 
 
 
 class RGBEfficientNetB7(nn.Sequential):
-    def __init__(self):
+    def __init__(self, device=torch.device('cpu')):
         super(RGBEfficientNetB7, self).__init__()
-        self.efficientnet = EfficientNet.from_pretrained('efficientnet-b7') 
+        self.efficientnet = EfficientNet.from_pretrained('efficientnet-b7', device=device) 
         self.normalizer = Normalizer()
         super(RGBEfficientNetB7, self).__init__(self.normalizer, self.efficientnet)
 

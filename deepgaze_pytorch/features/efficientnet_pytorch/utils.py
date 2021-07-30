@@ -3,6 +3,7 @@ This file contains helper functions for building the model and for loading model
 These helper functions are built to mirror those in the official TensorFlow implementation.
 """
 
+from os import device_encoding
 import re
 import math
 import collections
@@ -320,11 +321,11 @@ url_map_advprop = {
 }
 
 
-def load_pretrained_weights(model, model_name, load_fc=True, advprop=False):
+def load_pretrained_weights(model, model_name, load_fc=True, advprop=False, device=torch.device('cpu')):
     """ Loads pretrained weights, and downloads if loading for the first time. """
     # AutoAugment or Advprop (different preprocessing)
     url_map_ = url_map_advprop if advprop else url_map
-    state_dict = model_zoo.load_url(url_map_[model_name])
+    state_dict = model_zoo.load_url(url_map_[model_name], map_location=device)
     if load_fc:
         model.load_state_dict(state_dict)
     else:
