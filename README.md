@@ -1,4 +1,16 @@
-# DeepGaze I, DeepGaze II and DeepGaze IIE
+# DeepGaze CPU
+
+The project uses `pipenv` for managing Python virtual environment. You can install and run the CMD script using the following:
+1. `pip install --user pipenv`
+2. `pipenv install`
+3. `pipenv run python main.py --help`
+
+# Downloading models
+The script will download and cache pre-trained model weights during the first run. When using DeepGaze-I model, you might get a 403 HTTP error. In that case, you can manually download the model weights [from here](https://github.com/matthias-k/DeepGaze/releases/tag/v1.01) and put it in the [cache directory of PyTorch](https://pytorch.org/docs/stable/hub.html#where-are-my-downloaded-models-saved). 
+
+Additionally, you can use pre-computed centerbias log density by downloading it [from here](https://github.com/matthias-k/DeepGaze/releases/download/v1.0.0/centerbias_mit1003.npy) and putting the file into the `models/` folder. Without it, uniform centerbias will be used.
+
+# (original README) DeepGaze I, DeepGaze II and DeepGaze IIE
 
 This repository contains the pytorch implementations of DeepGaze I, DeepGaze II and DeepGaze IIE
 
