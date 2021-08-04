@@ -21,13 +21,10 @@ def main(args):
     model_func = args.model
 
     # load precomputed centerbias log density (from MIT1003) over a 1024x1024 image
+    # you can download the centerbias from https://github.com/matthias-k/DeepGaze/releases/download/v1.0.0/centerbias_mit1003.npy
+    # alternatively, you can use a uniform centerbias by passing uniform=True
     cb_mit_path = "models/centerbias_mit1003.npy"
-    if os.path.exists(cb_mit_path):
-        # you can download the centerbias from https://github.com/matthias-k/DeepGaze/releases/download/v1.0.0/centerbias_mit1003.npy
-        centerbias_template = np.load("models/centerbias_mit1003.npy")
-    else:
-        # alternatively, you can use a uniform centerbias
-        centerbias_template = np.zeros((1024, 1024))
+    centerbias_template = utils.load_centerbias(cb_mit_path)
 
     model = model_func(pretrained=True).to(device)
 
