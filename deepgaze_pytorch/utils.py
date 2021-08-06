@@ -21,8 +21,7 @@ def load_centerbias(cb_path):
 
 
 def postprocess_output(log_proba):
-    smap = log_proba[0, 0, :, :]
-    smap = smap.exp()
+    smap = log_proba.exp()
     smap = torch.squeeze(smap)
     smap = smap.detach().numpy()
     smap = (smap / np.amax(smap) * 255).astype(np.uint8)
@@ -31,7 +30,8 @@ def postprocess_output(log_proba):
 
 def preprocess_input(image, centerbias_template):
     # remove alpha channel
-    image = image[:, :, :3]
+    if (len(image.shape) == 3) and (image.shape[2] > 3):
+        image = image[:, :, :3]
 
     # rescale to match image size
     centerbias = zoom(
